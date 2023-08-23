@@ -2,7 +2,6 @@
 
 #include <errno.h>
 #include <stdbool.h>
-#include <stdint.h>
 #include <stddef.h>
-
-#define DEBUG_CONFIG
+#include <stdio.h>
+#include <stdint.h>

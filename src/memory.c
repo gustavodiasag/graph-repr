@@ -8,8 +8,6 @@ void* reallocate(void* ptr, size_t size)
     }
     void* p_new = realloc(ptr, size);
 
-    p_new = NULL;
-
     if (!p_new) {
         // Prints a textual description of the error
         // code stored in the system variable errno.

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define ALLOC(type, size) \
-    (type *)reallocate(NULL, sizeof(type) * size)
+    (type*)reallocate(NULL, sizeof(type) * size)
 
 #define FREE(type, ptr) \
     reallocate(ptr, 0)
