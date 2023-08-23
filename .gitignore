@@ -1,3 +1,5 @@
-small-sample.txt
-large-sample.txt
+.vscode
 build/
+large-sample.txt
+run.sh
+small-sample.txt
