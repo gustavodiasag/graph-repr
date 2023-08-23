@@ -2,11 +2,13 @@
 cmake_minimum_required(VERSION 3.16.3)
 
 # Set the project name.
-project(graph-repr C)
+project(graph-repr C CXX)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_C_EXTENSIONS True)
+
+set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
 
 # Add compile definitions for specific operating systems.
 if(UNIX)
@@ -37,9 +39,12 @@ else()
     add_compile_definitions(COMPILER_UNKNOWN)
 endif()
 
-include_directories(${PROJECT_SOURCE_DIR}/include/)
+add_subdirectory(src)
+add_subdirectory(test)
 
-file(GLOB_RECURSE SOURCE
+include_directories(${HEADERS})
+
+file(GLOB SOURCE
     ${PROJECT_SOURCE_DIR}/include/*.h
     ${PROJECT_SOURCE_DIR}/src/*.c
 )
