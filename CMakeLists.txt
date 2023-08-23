@@ -37,4 +37,11 @@ else()
     add_compile_definitions(COMPILER_UNKNOWN)
 endif()
 
-add_executable(${PROJECT_NAME} src/main.c)
+include_directories(${PROJECT_SOURCE_DIR}/include/)
+
+file(GLOB_RECURSE SOURCE
+    ${PROJECT_SOURCE_DIR}/include/*.h
+    ${PROJECT_SOURCE_DIR}/src/*.c
+)
+
+add_executable(${PROJECT_NAME} ${SOURCE})
