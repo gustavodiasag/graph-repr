@@ -1,26 +1,34 @@
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.14)
 
-project(graph-repr C CXX)
+project(graph-repr)
+
+# GoogleTest requires at least C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
-
 FetchContent_Declare(
     googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        release-1.11.0
+    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
+
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
 
-add_library(GTest::GTest INTERFACE IMPORTED)
-target_link_libraries(GTest::GTest INTERFACE gtest_main)
+enable_testing()
 
-add_executable(cli_test cli_test.cc)
-
-target_link_libraries(cli_test
-    PRIVATE
-    GTest::GTest
-    source
+add_executable(
+  tests
+  cli_test.cc
 )
 
-add_test(cli_tests cli_test)
+target_link_libraries(
+  tests
+  GTest::gtest_main
+  source
+)
+
+include(GoogleTest)
+gtest_discover_tests(tests)

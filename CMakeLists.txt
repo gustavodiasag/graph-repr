@@ -8,8 +8,6 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_C_EXTENSIONS True)
 
-set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
-
 # Add compile definitions for specific operating systems.
 if(UNIX)
     add_compile_definitions(OS_UNIX_LIKE)    
@@ -39,6 +37,8 @@ else()
     add_compile_definitions(COMPILER_UNKNOWN)
 endif()
 
+set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
+
 add_subdirectory(src)
 add_subdirectory(test)
 
@@ -50,3 +50,5 @@ file(GLOB SOURCE
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})
+
+enable_testing()
