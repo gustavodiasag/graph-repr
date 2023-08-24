@@ -44,7 +44,7 @@ const char* parse_args(int argc, char** argv)
 {
     if (argc != 2) {
         parse_err("Expected 2 arguments, received: %d. Try '-h'.", argc - 1);
-        exit(EINVAL); /* Invalid arguments. */
+        return NULL;
     }
     int opt = getopt(argc, argv, "hls");
 
@@ -63,6 +63,4 @@ const char* parse_args(int argc, char** argv)
     default:
         parse_err("Unknown error");
     }
-
-    return NULL;
 }
