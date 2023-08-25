@@ -4,7 +4,7 @@ project(graph-repr C CXX)
 
 add_library(source
     cli.c
-    adjlst.c
+    graph.c
     memory.c
 )
 
