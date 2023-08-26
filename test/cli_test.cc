@@ -41,7 +41,7 @@ TEST(CliTest, SmallSampleFile)
 
     const char *path = parse_args(2, argv);
 
-    ASSERT_STREQ(path, "small-sample.txt");
+    ASSERT_STREQ(path, "../small-sample.txt");
 }
 
 TEST(CliTest, LargeSampleFile)
@@ -50,7 +50,7 @@ TEST(CliTest, LargeSampleFile)
 
     const char* path = parse_args(2, argv);
     
-    ASSERT_STREQ(path, "large-sample.txt");
+    ASSERT_STREQ(path, "../large-sample.txt");
 }
 
 int main(int argc, char** argv)
