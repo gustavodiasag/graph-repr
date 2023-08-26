@@ -33,7 +33,7 @@ void* reallocate(void* ptr, size_t size)
     if (!p_new) {
         // Prints a textual description of the error
         // code stored in the system variable errno.
-        perror("Error while allocating memory");
+        fprintf(stderr, "Error while allocating memory");
         exit(EXIT_FAILURE);
     }
     return p_new;

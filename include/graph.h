@@ -25,6 +25,7 @@
 #include "common.h"
 
 typedef struct {
+    uint32_t vertices;
     bool** matrix;
 } graph_t;
 
