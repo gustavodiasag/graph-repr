@@ -1,4 +1,10 @@
 language: c
-compiler:
-  - clang
-  - gcc
+
+compiler: clang
+
+os: linux
+
+sudo: false
+
+script:
+  - ./run.sh
