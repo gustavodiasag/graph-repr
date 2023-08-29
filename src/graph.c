@@ -25,24 +25,11 @@
 
 void init_graph(graph_t* graph)
 {
-    graph->matrix = NULL;
-    graph->vertices = 0;
+    graph->pointers = NULL;
+    graph->edges = NULL;
 }
 
 void build_graph(graph_t* graph, FILE* fp)
 {
-    uint32_t v, e;
-    
-    fscanf(fp, "%d %d", &v, &e);
 
-    graph->vertices = v;
-    graph->matrix = ALLOC(bool*, v);
-    
-    for (uint32_t i = 0; i < v; i++) {
-        graph->matrix[i] = ALLOC(bool, v);
-    }
-
-    while (fscanf(fp, "%d %d", &v, &e) != EOF) {
-        graph->matrix[v - 1][e - 1] = true;
-    }
 }

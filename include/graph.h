@@ -24,9 +24,16 @@
 
 #include "common.h"
 
-typedef struct {
-    uint32_t vertices;
-    bool** matrix;
+typedef struct _edge {
+    uint32_t tail;
+    uint32_t head;
+} edge_t;
+
+typedef struct _graph {
+    uint32_t *ptrs;
+    uint32_t ptr_count;
+    edge_t *edges;
+    uint32_t edge_count;
 } graph_t;
 
 void init_graph(graph_t* graph);
