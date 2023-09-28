@@ -21,7 +21,7 @@ enable_testing()
 
 add_executable(
   tests
-  cli_test.cc
+  test_cli.cc
 )
 
 target_link_libraries(
