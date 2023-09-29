@@ -15,7 +15,7 @@ reallocate(void* ptr, size_t size)
     if (!p_new) {
         // Prints a textual description of the error
         // code stored in the system variable errno.
-        err_abort(EXIT_FAILURE, "Error while allocating memory.");
+        err_abort("Error while allocating memory.");
     }
     return p_new;
 }
