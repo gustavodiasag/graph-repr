@@ -18,13 +18,13 @@ main(int argc, char** argv)
     FILE *fp = fopen(path, "r");
 
     if (!fp) {
-        err_abort(EIO, "Could not open file \"%s\".", path);
+        err_abort("Could not open file \"%s\".", path);
     }
 
-    Graph graph;
-    build_graph(&graph, fp);
+    Graph* graph;
+    build_graph(graph, fp);
 
     fclose(fp);
 
-    free_graph(&graph);
+    free_graph(graph);
 }
