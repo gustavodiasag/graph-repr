@@ -2,6 +2,14 @@
 #include "graph.h"
 #include "memory.h"
 
+typedef struct _Graph {
+    uint32_t* ptrs;
+    uint32_t* dest;
+
+    uint32_t _ptr_count;
+    uint32_t _dest_count;
+} Graph;
+
 void
 _alloc_graph(Graph* graph, uint32_t ptr_size, uint32_t dest_size)
 {
@@ -43,6 +51,6 @@ build_graph(Graph* graph, FILE* fp)
         }
         graph->dest[graph->_dest_count++] = e_head;
     }
-    // Last position works like a sentinel.
+    // Last position is used like a sentinel.
     graph->ptrs[graph->_ptr_count++] = graph->_dest_count;
 }
