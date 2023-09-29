@@ -2,9 +2,9 @@
 
 #include <stdarg.h>
 
-#define err_abort(error_kind, format, ...)       \
+#define err_abort(format, ...)      \
     error(format, ##__VA_ARGS__);   \
-    exit(error_kind)
+    exit(EXIT_FAILURE)
 
 /// @brief Displays error message to `stderr`.
 /// @param fmt message format
