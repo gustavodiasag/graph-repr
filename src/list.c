@@ -2,12 +2,12 @@
 
 #include "list.h"
 
-void list_init(List* l, size_t esize, void (*destroy)(void*))
+void list_init(List* l, size_t dsize, void (*destroy)(void*))
 {
     l->_head = NULL;
     l->_tail = NULL;
     l->_size = 0;
-    l->_esize = esize;
+    l->_dsize = dsize;
     l->_destroy = destroy;
 }
 
@@ -22,12 +22,21 @@ void list_destroy(List* l)
     memset(l, 0, sizeof(List));
 }
 
+static ListElt* _elt_alloc(List* l)
+{
+    ListElt* e = (ListElt*)malloc(sizeof(ListElt));
+    assert(e);
+
+    e->_data = (void*)malloc(list_dsize(l));
+    assert(e->_data);
+
+    return e;
+}
+
 bool list_ins_next(List* l, ListElt* e, const void* data)
 {
-    ListElt* new = (ListElt*)malloc(sizeof(ListElt));
-    assert(new);
-
-    memcpy(new->_data, (void*)data, l->_esize);
+    ListElt* new = _elt_alloc(l);
+    memcpy(new->_data, data, l->_dsize);
 
     if (!e) {
         // Head insertion.
