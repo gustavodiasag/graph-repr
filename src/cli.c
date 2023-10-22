@@ -6,15 +6,13 @@
 #include "common.h"
 #include "error.h"
 
-// Optional structures supported.
 static const char* _default_paths[] = {
     ['l'] = "../large-sample.txt",
     ['s'] = "../small-sample.txt",
 };
 
-/// @brief Displays usage and functionality to `stdout`.
-static void
-_help()
+/** Displays usage and functionality to `stdout`. */
+static void _help()
 {
     fputs(
         "usage: ./graph-repr [option] [path]\n\n"
@@ -26,8 +24,7 @@ _help()
     );
 }
 
-const char*
-parse_args(int argc, char** argv)
+const char* parse_args(int argc, char** argv)
 {
     if (argc != 2) {
         error("Expected 2 arguments, received: %d. Try '-h'.", argc - 1);

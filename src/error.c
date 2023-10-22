@@ -1,8 +1,7 @@
 #include "common.h"
 #include "error.h"
 
-void
-error(const char* fmt, ...)
+void error(const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);

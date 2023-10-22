@@ -28,10 +28,3 @@ TEST(CliTest, LargeSampleFile)
     
     ASSERT_STREQ(path, "../large-sample.txt");
 }
-
-int main(int argc, char** argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
-}

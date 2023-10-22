@@ -16,17 +16,11 @@ typedef struct _List {
     ListElt*            _head;
     ListElt*            _tail;
     size_t              _size;
-    size_t              _esize;
+    size_t              _dsize;
 
     int32_t             (*_match)(const void*, const void*);
     void                (*_destroy)(void* data);
 } List;
-
-/**
- * Evaluates the number of elements in a singly linked list list specified by
- * `l`.
- */
-#define list_size(l) ((l)->_size)
 
 /** 
  * Evaluates the element at the head of a singly linked list specified by
@@ -39,6 +33,14 @@ typedef struct _List {
  * `l`.
  */
 #define list_tail(l) ((l)->_tail)
+
+/**
+ * Evaluates the number of elements in a singly linked list list specified by
+ * `l`.
+ */
+#define list_size(l) ((l)->_size)
+
+#define list_dsize(l) ((l)->_dsize)
 
 /**
  * Evaluates whether the element specified by `e` is the head of a linked list
