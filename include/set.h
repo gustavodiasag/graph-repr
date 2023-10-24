@@ -6,7 +6,7 @@
 #include "common.h"
 #include "list.h"
 
-typedef List Set
+typedef List Set;
 
 #define set_size list_size
 

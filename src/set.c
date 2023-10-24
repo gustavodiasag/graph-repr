@@ -10,7 +10,7 @@ void set_init(Set* s, size_t dsize,
     s->_match = match;
 }
 
-bool set_insert(Set* s, const void* data)
+bool set_ins(Set* s, const void* data)
 {
     // Duplicates are not allowed.
     if (set_is_mem(s, data)) {

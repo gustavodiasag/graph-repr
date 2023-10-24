@@ -20,7 +20,7 @@ static void _help()
         "-l         use large structure sample\n"
         "-s         use small structure sample\n\n"
         "Option and path are exclusive, either one or the other must be provided\n",
-        stdout
+        stderr
     );
 }
 

@@ -19,7 +19,7 @@ typedef struct _List {
     size_t              _dsize;
 
     int32_t             (*_match)(const void*, const void*);
-    void                (*_destroy)(void* data);
+    void                (*_destroy)(void*);
 } List;
 
 /** 
@@ -40,6 +40,9 @@ typedef struct _List {
  */
 #define list_size(l) ((l)->_size)
 
+/** 
+ * Evaluates the size in byes of the data stored on each element of the list.
+ */
 #define list_dsize(l) ((l)->_dsize)
 
 /**
@@ -64,7 +67,7 @@ typedef struct _List {
  * Initializes a singly linked-list specified by `list`. This operation must be
  * called for a list in order for it to be used in any context.
  * 
- * The `dsize` parameter provides the number of bytes necessary for da data to
+ * The `dsize` parameter provides the number of bytes necessary for the data to
  * be stored in each element of the list.
  * 
  * The `destroy` parameter must provide a way to free dynamic allocations in
