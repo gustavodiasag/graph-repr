@@ -37,6 +37,14 @@ else()
     add_compile_definitions(COMPILER_UNKNOWN)
 endif()
 
+if (MSVC)
+    # Warning level 4
+    add_compile_options(\W4)
+else()
+    # Additional warnings
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
 set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
 
 add_subdirectory(src)
