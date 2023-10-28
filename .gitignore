@@ -1,5 +1,4 @@
 .vscode
 build/
-large-sample.txt
+resources/
 run.sh
-small-sample.txt
