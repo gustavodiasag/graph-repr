@@ -93,4 +93,7 @@ bool set_is_sub(const Set* s1, const Set* s2);
  */
 bool set_is_eq(const Set* s1, const Set* set2);
 
+// FIXME: Add description.
+void set_print(const Set* s, void(*f)(const void*));
+
 #endif

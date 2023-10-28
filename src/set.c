@@ -102,7 +102,7 @@ bool set_diff(Set* s_d, const Set* s1, const Set* s2)
 bool set_is_mem(const Set* s, const void* data)
 {
     for (ListElt* mem = list_head(s); mem; mem = list_next(mem)) {
-        if (s->_match(data, list_data(mem))) {
+        if (s->_match(data, list_data(mem)) == 0) {
             return true;
         }
     }
@@ -130,4 +130,12 @@ bool set_is_eq(const Set* s1, const Set* s2)
     }
     // Sets of the same size are equal if they are subsets.
     return set_is_sub(s1, s2);
+}
+
+void set_print(const Set* s, void(*f)(const void*))
+{
+    for (ListElt* mem = list_head(s); mem; mem = list_next(mem)) {
+        f(mem->_data);
+        printf(" -> ");
+    }
 }
