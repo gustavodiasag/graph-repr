@@ -5,6 +5,9 @@ project(graph-repr C CXX)
 add_library(source
     cli.c
     list.c
+    graph.c
+    set.c
+    error.c
 )
 
 target_include_directories(source
