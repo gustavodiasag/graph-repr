@@ -14,20 +14,20 @@ static const char* _default_paths[] = {
 /** Displays usage and functionality to `stdout`. */
 static void _help()
 {
-    fputs(
+    fprintf(
+        stderr,
         "usage: ./graph-repr [option] [path]\n\n"
         "-h         display usage and list available options\n"
         "-l         use large structure sample\n"
         "-s         use small structure sample\n\n"
-        "Option and path are exclusive, either one or the other must be provided\n",
-        stderr
+        "Option and path are exclusive, either one or the other must be provided\n"
     );
 }
 
 const char* parse_args(int argc, char** argv)
 {
     if (argc != 2) {
-        error("Expected 2 arguments, received: %d. Try '-h'.", argc - 1);
+        fprintf(stderr, "Expected 2 arguments, received: %d. Try '-h'.", argc - 1);
         return NULL;
     }
     const int opt = getopt(argc, argv, "hls");
@@ -45,6 +45,6 @@ const char* parse_args(int argc, char** argv)
         return argv[optind];
     // No more options available.
     default:
-        error("Unknown error");
+        err_abort("Unknown error");
     }
 }

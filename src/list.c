@@ -22,7 +22,7 @@ void list_destroy(List* l)
     memset(l, 0, sizeof(List));
 }
 
-static ListElt* _elt_alloc(List* l)
+static ListElt* _elt_alloc(const List* l)
 {
     ListElt* e = (ListElt*)malloc(sizeof(ListElt));
     assert(e);
@@ -36,7 +36,7 @@ static ListElt* _elt_alloc(List* l)
 bool list_ins_next(List* l, ListElt* e, const void* data)
 {
     ListElt* new = _elt_alloc(l);
-    memcpy(new->_data, data, l->_dsize);
+    memcpy(new->_data, data, list_dsize(l));
 
     if (!e) {
         // Head insertion.
