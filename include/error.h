@@ -2,4 +2,4 @@
 
 #include <stdarg.h>
 
-void error(const char* fmt, ...);
+void err_abort(const char* fmt, ...);
