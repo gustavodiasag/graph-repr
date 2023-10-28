@@ -1,5 +1,11 @@
 #include <string.h>
 
+#ifdef DEBUG_LOG
+
+#include <stdio.h>
+
+#endif
+
 #include "graph.h"
 
 void graph_init(Graph* g, size_t vsize,
@@ -12,7 +18,7 @@ void graph_init(Graph* g, size_t vsize,
     g->_match = match;
     g->_destroy = destroy;
     // Initialize adjacency list.
-    set_init(&g->_adjlists, vsize, match, NULL);
+    list_init(&g->_adjlists, sizeof(AdjList), NULL);
 }
 
 void graph_destroy(Graph* g)
@@ -33,19 +39,37 @@ void graph_destroy(Graph* g)
     memset(g, 0, sizeof(Graph));
 }
 
-bool graph_ins_v(Graph* g, const void* data)
+static AdjList* _adj_alloc(const Graph* g)
 {
-    // Insertion of duplicate vertices is not allowed.
-    if (set_is_mem(&g->_adjlists, data)) {
-        return false;
-    }
     AdjList* adj = (AdjList*)malloc(sizeof(AdjList));
     assert(adj);
 
-    memcpy(adj->_vertex, (void*)data, graph_vsize(g));
-    set_init(&adj->_adj, g->_vsize, g->_match, NULL);
+    adj->_vertex = (void*)malloc(sizeof(graph_vsize(g)));
+    assert(adj->_vertex);
 
-    if (!set_ins(&g->_adjlists, adj)) {
+    return adj;
+}
+
+bool graph_ins_v(Graph* g, const void* v)
+{
+    // Duplicate vertices are not allowed.
+    for (ListElt* e = list_head(&g->_adjlists); e; e = list_next(e)) {
+        if (g->_match(v, ((AdjList*)list_data(e))->_vertex) == 0) {
+#ifdef DEBUG_LOG
+            printf("graph_ins_v: Vertex already in the graph.\n");
+#endif
+            return false;
+        }
+    }
+    AdjList* adj = _adj_alloc(g);
+    
+    memcpy(adj->_vertex, v, graph_vsize(g));
+    set_init(&adj->_adj, graph_vsize(g), g->_match, NULL);
+
+    if (!list_ins_next(&g->_adjlists, list_tail(&g->_adjlists), adj)) {
+#ifdef DEBUG_LOG
+        printf("graph_ins_v: Error during vertex insertion.\n");
+#endif
         return false;
     }
     g->_v++;
@@ -53,7 +77,36 @@ bool graph_ins_v(Graph* g, const void* data)
     return true;
 }
 
-bool graph_ins_e(Graph* e, const void* data1, const void* data2)
+bool graph_ins_e(Graph* g, const void* v, const void* w)
 {
-    if ()
+    ListElt* e;
+    for (e = list_head(&g->_adjlists); e; e = list_next(e)) {
+        if (g->_match(v, ((AdjList*)list_data(e))->_vertex) == 0) {
+#ifdef DEBUG_LOG
+            printf("graph_ins_e: Edge's tail found in the graph.\n");
+#endif
+            break;
+        }
+    }
+    assert(e);
+
+    if (!set_ins(&((AdjList*)list_data(e))->_adj, w)) {
+#ifdef DEBUG_LOG
+        printf("graph_ins_e: Error during edge insertion.\n");
+#endif
+        return false;
+    }
+    g->_e++;
+
+    return true;
+}
+
+void graph_print(const Graph* g, void (*f)(const void*))
+{
+    for (ListElt* e = list_head(&g->_adjlists); e; e = list_next(e)) {
+        f(((AdjList*)list_data(e))->_vertex);
+        printf(" ->\t");
+        set_print(&((AdjList*)list_data(e))->_adj, f);
+        printf("\n");
+    }
 }

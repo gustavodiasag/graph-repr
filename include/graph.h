@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "set.h"
+#include "list.h"
 
 /** Structure representing an adjacency list. */
 typedef struct _AdjList {
@@ -12,7 +13,7 @@ typedef struct _AdjList {
 
 /** Structure representing a graph. */
 typedef struct _Graph {
-    Set         _adjlists;
+    List        _adjlists;
     size_t      _vsize;
     size_t      _v;
     size_t      _e;
@@ -70,7 +71,7 @@ void graph_destroy(Graph* g);
  * 
  * Returns true is inserting the vertex is successfull, or false otherwise.
  */
-bool graph_ins_v(Graph* g, const void* data);
+bool graph_ins_v(Graph* g, const void* v);
 
 /**
  * Inserts an edge from a vertex specified by `data1` to a vertex specified by
@@ -79,7 +80,7 @@ bool graph_ins_v(Graph* g, const void* data);
  * 
  * Returns true if inserting the edge is successfull, or false otherwise.
  */
-bool graph_ins_e(Graph* g, const void* data1, const void* data2);
+bool graph_ins_e(Graph* g, const void* v, const void* w);
 
 /**
  * Removes a vertex matching `data` from a graph specified by `g`. Once
@@ -116,5 +117,9 @@ bool graph_adjlist(const Graph* g, const void* data, AdjList** adj);
  * otherwise.
  */
 bool graph_is_adj(const Graph* g, const void* data1, const void* data2);
+
+// FIXME: Add description
+void graph_print(const Graph* g, void (*f)(const void*));
+
 
 #endif
