@@ -19,7 +19,7 @@ void graph_init(Graph* g, size_t vsize,
     g->match = match;
     g->_destroy = destroy;
     // Initialize adjacency list.
-    list_init(&g->_adjlists, sizeof(AdjList), NULL);
+    g->_adjlists = list_new(sizeof(AdjList), g->match, NULL);
 }
 
 void graph_destroy(Graph* g)
@@ -65,7 +65,7 @@ static bool _graph_ins_v(Graph* g, const void* v)
     AdjList* adj = _adj_alloc(g);
     
     memcpy(adj->_vertex, v, graph_vsize(g));
-    set_init(&adj->_adj, graph_vsize(g), g->match, NULL);
+    adj->_adj = set_new(graph_vsize(g), g->match, NULL);
 
     if (!list_ins_next(&g->_adjlists, list_tail(&g->_adjlists), adj)) {
 #ifdef DEBUG_LOG
