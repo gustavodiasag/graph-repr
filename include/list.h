@@ -6,13 +6,15 @@
 #include "common.h"
 
 /** Structure representing a singly linked list element. */
-typedef struct _ListElt {
+typedef struct _ListElt
+{
     void*               _data;
     struct _ListElt*    _next;
 } ListElt;
 
 /** Structure representing a singly linked list. */
-typedef struct _List {
+typedef struct _List
+{
     ListElt*            _head;
     ListElt*            _tail;
     size_t              _size;

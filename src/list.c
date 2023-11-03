@@ -2,6 +2,9 @@
 
 #include "list.h"
 
+/** FIXME: Describe function. */
+static ListElt* _elt_alloc(const List* l);
+
 void list_init(List* l, size_t dsize, void (*destroy)(void*))
 {
     l->_head = NULL;
@@ -20,17 +23,6 @@ void list_destroy(List* l)
         }
     }
     memset(l, 0, sizeof(List));
-}
-
-static ListElt* _elt_alloc(const List* l)
-{
-    ListElt* e = (ListElt*)malloc(sizeof(ListElt));
-    assert(e);
-
-    e->_data = (void*)malloc(list_dsize(l));
-    assert(e->_data);
-
-    return e;
 }
 
 bool list_ins_next(List* l, ListElt* e, const void* data)
@@ -56,6 +48,17 @@ bool list_ins_next(List* l, ListElt* e, const void* data)
     l->_size++;
 
     return true;
+}
+
+static ListElt* _elt_alloc(const List* l)
+{
+    ListElt* e = (ListElt*)malloc(sizeof(ListElt));
+    assert(e);
+
+    e->_data = (void*)malloc(list_dsize(l));
+    assert(e->_data);
+
+    return e;
 }
 
 bool list_rm_next(List* l, ListElt* e, void** data)
