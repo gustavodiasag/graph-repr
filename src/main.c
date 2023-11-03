@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     fscanf(f, "%zu %zu", &vertices, &edges);
 
     Vertex v, w;
-    while (fscanf(f, "%d %d %zu", &v._data, &w._data, &w._weight) != EOF) {
+    while (fscanf(f, "%zu %zu %zu", &v._data, &w._data, &w._weight) != EOF) {
         graph_ins_e(&g, &v, &w);
     }
     fclose(f);

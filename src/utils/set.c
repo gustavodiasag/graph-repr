@@ -2,14 +2,6 @@
 
 #include "utils/set.h"
 
-void set_init(Set* s, size_t dsize,
-              int (*match)(const void*, const void*),
-              void (*destroy)(void*))
-{
-    list_init(s, dsize, destroy);
-    s->_match = match;
-}
-
 bool set_ins(Set* s, const void* data)
 {
     // Duplicates are not allowed.
@@ -24,7 +16,7 @@ bool set_rm(Set* s, void** data)
     ListElt* prev;
     ListElt* mem;
     for (mem = list_head(s); mem; mem = list_next(mem)) {
-        if (s->_match(*data, list_data(mem))) {
+        if (s->match(*data, list_data(mem))) {
             break;
         }
         prev = mem;
@@ -37,7 +29,7 @@ bool set_rm(Set* s, void** data)
 
 bool set_union(Set* s_u, const Set* s1, const Set* s2)
 {
-    set_init(s_u, s1->_dsize, s1->_match, NULL);
+    set_init(s_u, s1->_dsize, s1->match, NULL);
     
     void* data;
     for (ListElt* mem = list_head(s1); mem; mem = list_next(mem)) {
@@ -63,9 +55,9 @@ bool set_union(Set* s_u, const Set* s1, const Set* s2)
     return true;
 }
 
-bool set_insertec(Set* s_i, const Set* s1, const Set* s2)
+bool set_intersec(Set* s_i, const Set* s1, const Set* s2)
 {
-    set_init(s_i, s1->_dsize, s1->_match, NULL);
+    set_init(s_i, s1->_dsize, s1->match, NULL);
 
     void* data;
     for (ListElt* mem = list_head(s1); mem; mem = list_next(mem)) {
@@ -83,7 +75,7 @@ bool set_insertec(Set* s_i, const Set* s1, const Set* s2)
 
 bool set_diff(Set* s_d, const Set* s1, const Set* s2)
 {
-    set_init(s_d, s1->_dsize, s1->_match, NULL);
+    set_init(s_d, s1->_dsize, s1->match, NULL);
 
     void* data;
     for (ListElt* mem = list_head(s1); mem; mem = list_next(mem)) {
@@ -102,7 +94,7 @@ bool set_diff(Set* s_d, const Set* s1, const Set* s2)
 bool set_is_mem(const Set* s, const void* data)
 {
     for (ListElt* mem = list_head(s); mem; mem = list_next(mem)) {
-        if (s->_match(data, list_data(mem)) == 0) {
+        if (s->match(data, list_data(mem)) == 0) {
             return true;
         }
     }
@@ -130,16 +122,4 @@ bool set_is_eq(const Set* s1, const Set* s2)
     }
     // Sets of the same size are equal if they are subsets.
     return set_is_sub(s1, s2);
-}
-
-void set_print(const Set* s, void(*f)(const void*))
-{
-    ListElt* mem;
-    for (mem = list_head(s); mem != list_tail(s); mem = list_next(mem)) {
-        f(mem->_data);
-        printf("\t->");
-    }
-    if (mem) {
-        f(mem->_data);
-    }
 }

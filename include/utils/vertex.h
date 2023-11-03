@@ -7,13 +7,13 @@
 
 typedef struct _Vertex
 {
-    int         _data;
+    size_t      _data;
     size_t      _weight;
 } Vertex;
 
-#define vertex_data(v) ((v)->_data)
+#define vertex_data(v) (((Vertex*)v)->_data)
 
-#define vertex_weight(v) ((v)->_weight)
+#define vertex_weight(v) (((Vertex*)v)->_weight)
 
 int vertex_match(const void* v1, const void* v2);
 

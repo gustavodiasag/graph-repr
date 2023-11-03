@@ -7,4 +7,4 @@
 #include <stdio.h>
 #include <stdint.h>
 
-// #define DEBUG_LOG
+// #define DEBUG_LOGs
