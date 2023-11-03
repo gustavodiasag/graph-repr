@@ -20,7 +20,7 @@ typedef struct _List
     size_t              _size;
     size_t              _dsize;
 
-    int32_t             (*_match)(const void*, const void*);
+    int32_t             (*match)(const void*, const void*);
     void                (*_destroy)(void*);
 } List;
 
@@ -65,6 +65,11 @@ typedef struct _List
 /** Evaluates the data stored in the list element specified by `e`. */
 #define list_next(e) ((e)->_next)
 
+/** FIXME: Describe function. */
+List list_new(size_t dsize,
+              int (*match)(const void*, const void*),
+              void (*destroy)(void*));
+
 /**
  * Initializes a singly linked-list specified by `list`. This operation must be
  * called for a list in order for it to be used in any context.
@@ -76,7 +81,9 @@ typedef struct _List
  * the case where the list stores heap-allocated data. If the list elements do
  * no contain data that must be freed, `destroy` shall be set to NULL. 
  */
-void list_init(List* l, size_t dsize, void (*destroy)(void*));
+void list_init(List* l, size_t dsize,
+               int (*match)(const void*, const void*),
+               void (*destroy)(void*));
 
 /**
  * Destroys a singly linked-list specified by `list`. No operation is allowed
@@ -105,5 +112,11 @@ bool list_ins_next(List* l, ListElt* e, const void* data);
  * Returns true if the element is successfully removed, or false otherwise.
  */
 bool list_rm_next(List* l, ListElt* e, void** data);
+
+/** FIXME: Describe function. */
+bool list_is_empty(const List* l);
+
+/** FIXME: Describe function. */
+void list_print(const List* l, void (*f)(const void*));
 
 #endif

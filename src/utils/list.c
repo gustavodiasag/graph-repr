@@ -5,12 +5,24 @@
 /** FIXME: Describe function. */
 static ListElt* _elt_alloc(const List* l);
 
-void list_init(List* l, size_t dsize, void (*destroy)(void*))
+List list_new(size_t dsize, int (*match)(const void*, const void*),
+              void (*destroy)(void*))
+{
+    List l = {0};
+    list_init(&l, dsize, match, destroy);
+
+    return l;
+}
+
+void list_init(List* l, size_t dsize,
+               int (*match)(const void*, const void*),
+               void (*destroy)(void*))
 {
     l->_head = NULL;
     l->_tail = NULL;
     l->_size = 0;
     l->_dsize = dsize;
+    l->match = match;
     l->_destroy = destroy;
 }
 
@@ -93,4 +105,24 @@ bool list_rm_next(List* l, ListElt* e, void** data)
     l->_size--;
 
     return true;
+}
+
+bool list_is_empty(const List* l)
+{
+    return list_head(l) == list_tail(l);
+}
+
+void list_print(const List* l, void (*f)(const void*))
+{
+    printf("[");
+
+    ListElt* e;
+    for (e = list_head(l); e != list_tail(l); e = list_next(e)) {
+        f(e->_data);
+        printf(", ");
+    }
+    if (e) {
+        f(e->_data);
+    }
+    printf("]\n");
 }
