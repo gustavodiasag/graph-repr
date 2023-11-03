@@ -6,19 +6,21 @@
 #include "list.h"
 
 /** Structure representing an adjacency list. */
-typedef struct _AdjList {
+typedef struct _AdjList
+{    
     void*       _vertex;
     Set         _adj;
 } AdjList;
 
 /** Structure representing a graph. */
-typedef struct _Graph {
+typedef struct _Graph
+{
     List        _adjlists;
     size_t      _vsize;
     size_t      _v;
     size_t      _e;
 
-    int         (*_match)(const void*, const void*);
+    int         (*match)(const void*, const void*);
     void        (*_destroy)(void*);
 } Graph;
 
@@ -66,14 +68,6 @@ void graph_init(Graph* g, size_t vsize,
 void graph_destroy(Graph* g);
 
 /**
- * Inserts a vertex that contains a pointer to `data` into a graph specified by
- * `g`.
- * 
- * Returns true is inserting the vertex is successfull, or false otherwise.
- */
-bool graph_ins_v(Graph* g, const void* v);
-
-/**
  * Inserts an edge from a vertex specified by `data1` to a vertex specified by
  * `data2` into a graph specified by `g`. Both vertices must have been inserted
  * previously using `graph_ins_v`.
@@ -102,7 +96,7 @@ bool graph_rm_e(Graph* g, void** data1, void** data2);
 /**
  * Retrieves all the vertices that are adjacent to the vertex specified by
  * `data` in a graph specified by `g`. The adjacent vertices are returned in an
- * adjacent list specified by `adjt`.
+ * adjacency list specified by `adj`.
  * 
  * Returns true if retrieving the adjacent list is successfull, or false
  * otherwise.
