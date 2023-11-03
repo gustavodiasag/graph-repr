@@ -10,20 +10,13 @@ typedef List Set;
 
 #define set_size list_size
 
+#define set_new list_new
+
+#define set_init list_init
+
 #define set_destroy list_destroy
 
-/**
- * Initializes the set specified by `s`. The `match` parameter is a function
- * used by various set operations to determine if two members match. It must
- * return 1 if `key1` is equal to `key2` or 0 otherwise. 
- * 
- * The `destroy` parameter must provide a way to free dynamic allocations in
- * the case where the set stores heap-allocated data. If the set elements do
- * not contain data that must be freed, `destroy` must be set to NULL.
- */
-void set_init(Set* s, size_t dsize,
-              int (*match)(const void*, const void*),
-              void (*destroy)(void*));
+#define set_print list_print
 
 /**
  * Inserts a member into the set specified by `s`. The new member contains a
@@ -92,8 +85,5 @@ bool set_is_sub(const Set* s1, const Set* s2);
  * Returns true if the set is equal, or false otherwise.
  */
 bool set_is_eq(const Set* s1, const Set* set2);
-
-// FIXME: Add description.
-void set_print(const Set* s, void(*f)(const void*));
 
 #endif
