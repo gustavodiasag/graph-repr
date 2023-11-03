@@ -4,10 +4,11 @@ project(graph-repr C CXX)
 
 add_library(source
     cli.c
-    list.c
-    graph.c
-    set.c
+    edmonds.c
     error.c
+    graph.c
+    list.c
+    set.c
 )
 
 target_include_directories(source
