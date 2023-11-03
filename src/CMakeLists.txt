@@ -9,6 +9,7 @@ add_library(source
     graph/graph.c
     utils/list.c
     utils/set.c
+    utils/stack.c
     utils/vertex.c
 )
 
