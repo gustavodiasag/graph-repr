@@ -134,8 +134,12 @@ bool set_is_eq(const Set* s1, const Set* s2)
 
 void set_print(const Set* s, void(*f)(const void*))
 {
-    for (ListElt* mem = list_head(s); mem; mem = list_next(mem)) {
+    ListElt* mem;
+    for (mem = list_head(s); mem != list_tail(s); mem = list_next(mem)) {
         f(mem->_data);
-        printf(" -> ");
+        printf("\t->");
+    }
+    if (mem) {
+        f(mem->_data);
     }
 }
