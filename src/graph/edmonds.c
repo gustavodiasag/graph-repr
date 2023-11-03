@@ -1,5 +1,5 @@
-#include "edmonds.h"
-#include "vertex.h"
+#include "graph/edmonds.h"
+#include "utils/vertex.h"
 
 /** FIXME: Describe function. */
 static void _edmonds(const Graph* g, Graph* a);

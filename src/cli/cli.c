@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "cli.h"
+#include "cli/cli.h"
 #include "common.h"
 #include "error.h"
 

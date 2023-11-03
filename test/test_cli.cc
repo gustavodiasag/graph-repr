@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-    #include "../include/cli.h"
+    #include "cli/cli.h"
 }
 
 TEST(CliTest, NoArguments)

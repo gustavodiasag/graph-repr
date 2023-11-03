@@ -1,12 +1,10 @@
 #include <string.h>
 
 #ifdef DEBUG_LOG
-
-#include <stdio.h>
-
+    #include <stdio.h>
 #endif
 
-#include "graph.h"
+#include "graph/graph.h"
 
 /** FIXME: Describe function. */
 static bool _graph_ins_v(Graph* g, const void* v);

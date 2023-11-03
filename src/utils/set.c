@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "set.h"
+#include "utils/set.h"
 
 void set_init(Set* s, size_t dsize,
               int (*match)(const void*, const void*),

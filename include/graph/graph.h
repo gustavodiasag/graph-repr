@@ -2,8 +2,8 @@
 #define GRAPH_H
 
 #include "common.h"
-#include "set.h"
-#include "list.h"
+#include "utils/set.h"
+#include "utils/list.h"
 
 /** Structure representing an adjacency list. */
 typedef struct _AdjList

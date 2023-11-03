@@ -45,18 +45,14 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
+# set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
 
 add_subdirectory(src)
+add_subdirectory(include)
 add_subdirectory(test)
 
-include_directories(${HEADERS})
+add_executable(${PROJECT_NAME} src/main.c)
 
-file(GLOB SOURCE
-    ${PROJECT_SOURCE_DIR}/include/*.h
-    ${PROJECT_SOURCE_DIR}/src/*.c
-)
-
-add_executable(${PROJECT_NAME} ${SOURCE})
+target_link_libraries(${PROJECT_NAME} PRIVATE source)
 
 enable_testing()

@@ -2,7 +2,7 @@
 #define EDMONDS_H
 
 #include "graph.h"
-#include "list.h"
+#include "utils/list.h"
 
 List* edmonds(const Graph* g);
 

@@ -1,4 +1,4 @@
-#include "vertex.h"
+#include "utils/vertex.h"
 
 int vertex_match(const void* v1, const void* v2)
 {

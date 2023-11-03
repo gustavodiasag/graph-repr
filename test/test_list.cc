@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 extern "C" {
-    #include "../include/list.h"
+    #include "utils/list.h"
 }
 
 TEST(ListTest, ListInitialization)

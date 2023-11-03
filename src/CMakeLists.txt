@@ -3,12 +3,13 @@ cmake_minimum_required(VERSION 3.16.3)
 project(graph-repr C CXX)
 
 add_library(source
-    cli.c
-    edmonds.c
+    cli/cli.c
     error.c
-    graph.c
-    list.c
-    set.c
+    graph/edmonds.c
+    graph/graph.c
+    utils/list.c
+    utils/set.c
+    utils/vertex.c
 )
 
 target_include_directories(source
