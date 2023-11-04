@@ -9,6 +9,16 @@
 /** FIXME: Describe function. */
 static bool _graph_ins_v(Graph* g, const void* v);
 
+Graph graph_new(size_t vsize,
+                int (*match)(const void*, const void*),
+                void (*destroy)(void*))
+{
+    Graph g = {0};
+    graph_init(&g, vsize, match, destroy);
+
+    return g;
+}
+
 void graph_init(Graph* g, size_t vsize,
                 int (*match)(const void*, const void*),
                 void (*destroy)(void*))

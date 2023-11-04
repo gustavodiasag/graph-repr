@@ -5,9 +5,9 @@
 bool set_ins(Set* s, const void* data)
 {
     // Duplicates are not allowed.
-    if (set_is_mem(s, data)) {
-        return false;
-    }
+    // if (set_is_mem(s, data)) {
+    //     return false;
+    // }
     return list_ins_next(s, list_tail(s), data);
 }
 

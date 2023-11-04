@@ -41,6 +41,11 @@ typedef struct _Graph
 /** Evaluates the number of edges in a graph specified by `g`. */
 #define graph_e(g) ((g)->_e)
 
+/** FIXME: Describe function. */
+Graph graph_new(size_t vsize,
+                int (*match)(const void*, const void*),
+                void (*destroy)(void*));
+
 /**
  * Initializes a graph specified by `g`. This operation must be called for
  * a graph in order for it to be used in any context.
