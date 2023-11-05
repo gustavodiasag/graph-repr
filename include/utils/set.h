@@ -8,14 +8,31 @@
 
 typedef List Set;
 
+/** Evaluates the number of elements in a set specified by `s`. */
 #define set_size list_size
 
+/**
+ * Creates a set. Since a set is a linked list and requires being created in
+ * the same way, `set_new` is defined as `list_new`.
+ */
 #define set_new list_new
 
+/** 
+ * Initializes a set. Since a set is a linked list and requires the same
+ * initialization, `set_init` is defined as `list_init`.
+ */
 #define set_init list_init
 
+/** 
+ * Destroys a set. Since a set is a linked list and requires being destroyed in
+ * the same way, `set_destroy` is defined as `list_destroy`.
+ */
 #define set_destroy list_destroy
 
+/** 
+ * Prints a set. Since a set is a linked list and requires being formatted in
+ * the same way, `set_print` is defined as `list_print`.
+ */
 #define set_print list_print
 
 /**

@@ -15,7 +15,10 @@ typedef List Stack;
  */
 #define stack_peek(s) ((s)->_head ? (s)->_head->_data : NULL)
 
-/** FIXME: Describe macro. */
+/**
+ * Creates a stack. Since a stack is based on a linked list and requires being
+ * created in the same way, `stack_new` is defined as `list_new`.
+ */
 #define stack_new list_new
 
 /** 
@@ -25,15 +28,21 @@ typedef List Stack;
 #define stack_init list_init
 
 /**
- * Destroys a stack. Sine a stack is a linked-list and requires being destroyed
+ * Destroys a stack. Since a stack is a linked-list and requires being destroyed
  * in the same way, `stack_destroy` is defined to `list_destroy`.
 */
 #define stack_destroy list_destroy
 
-/** FIXME: Describe function. */
+/**
+ * Determines whether a stack specified by `s` is empty. Since a stack is a
+ * linked list, `stack_is_empty` is defined as `list_is_empty`.
+ */
 #define stack_is_empty list_is_empty
 
-/** FIXME: Describe function. */
+/**
+ * Prints a stack specified by `s`. Since a stack is a linked list and requires
+ * being printed in the same way, `stack_print` is defined as `list_print`.
+ */
 #define stack_print list_print
 
 /**
@@ -51,7 +60,12 @@ bool stack_push(Stack* s, const void* data);
  */
 bool stack_pop(Stack* s, void** data);
 
-/** FIXME: Describe function. */
+/** 
+ * Checks if a stack specified by `s` contains an element with the same content
+ * of `data`.
+ * 
+ * Returns true if the stack contains the element, or false otherwise. 
+ */
 bool stack_contains(const Stack* s, const void* data);
 
 #endif

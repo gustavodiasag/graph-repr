@@ -65,13 +65,26 @@ typedef struct _List
 /** Evaluates the data stored in the list element specified by `e`. */
 #define list_next(e) ((e)->_next)
 
-/** FIXME: Describe function. */
+/**
+ * Creates a singly linked list data structure. This operation must be callsed
+ * for a list in order for it to be used in any context.
+ * 
+ * The `dsize` paramenter provide the number of bytes necessary for the data to
+ * be stored in each element of the list.
+ * 
+ * The `match` parameter is a function to determine if two list elements match.
+ * It must return true if `key1` is equal to `key2`, or false otherwise.
+ * 
+ * The `destroy` parameter must provide a way to free dynamic allocations in
+ * the case where the list stores heap-allocated data. If the list elements do
+ * no contain data that must be freed, `destroy` must be set to NULL.
+ */
 List list_new(size_t dsize,
               int (*match)(const void*, const void*),
               void (*destroy)(void*));
 
 /**
- * Initializes a singly linked-list specified by `list`. This operation must be
+ * Initializes a singly linked list specified by `list`. This operation must be
  * called for a list in order for it to be used in any context.
  * 
  * The `dsize` parameter provides the number of bytes necessary for the data to
@@ -113,10 +126,17 @@ bool list_ins_next(List* l, ListElt* e, const void* data);
  */
 bool list_rm_next(List* l, ListElt* e, void** data);
 
-/** FIXME: Describe function. */
+/**
+ * Determines whether a list specified by `l` is empty.
+ * 
+ * Returns true if there's no elements in the list, or false otherwise.
+ */
 bool list_is_empty(const List* l);
 
-/** FIXME: Describe function. */
+/**
+ * Prints a list specified by `l`. Each of its elements is formatted based on a
+ * printing function specified by `f`.  
+ */
 void list_print(const List* l, void (*f)(const void*));
 
 #endif

@@ -5,6 +5,7 @@
 
 #include "common.h"
 
+/** Structure representing a weighted vertex. */
 typedef struct _Vertex
 {
     size_t      _data;
