@@ -35,6 +35,9 @@ int main(int argc, char** argv)
 
     edmonds(&g, &arborescence);
 
+    graph_print(&arborescence, vertex_print);
+
+    graph_destroy(&arborescence);
     graph_destroy(&g);
 
     return 0;

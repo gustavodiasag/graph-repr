@@ -45,13 +45,8 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# set(HEADERS ${PROJECT_SOURCE_DIR}/include/)
-
 add_subdirectory(src)
-add_subdirectory(test)
 
 add_executable(${PROJECT_NAME} src/main.c)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE source)
-
-enable_testing()
