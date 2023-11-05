@@ -4,15 +4,12 @@
 #include "utils/stack.h"
 #include "utils/vertex.h"
 
-#define ARRAY_LEN(arr) \
-    ((sizeof(arr))/(sizeof(*arr)))
-
 /** FIXME: Describe function. */
 static void _edmonds(const Graph* g, const Graph* contracted, Graph* a);
 /** FIXME: Describe function. */
 static void _find_min_parents(const Graph* g, Vertex** parents);
 /** FIXME: Describe function. */
-static bool _is_min(size_t* weights, const Vertex* v);
+static bool _is_min(Vertex** parents, const Vertex* v);
 /** FIXME: Describe function. */
 static Vertex* _min_edge(const AdjList* parent, const Vertex* child);
 /** FIXME: Describe function. */
@@ -34,9 +31,9 @@ void edmonds(const Graph* g, Graph* a)
 
 static void _edmonds(const Graph* g, const Graph* contraction, Graph* a)
 {   
-    Vertex* parents[graph_v(contraction) + 1];
+    Vertex* parents[graph_v(g) + 1];
     memset(parents, NULL, sizeof(parents));
-    
+
     _find_min_parents(contraction, parents);
 
     Stack cycle = stack_new(sizeof(size_t), int_match, NULL);
@@ -58,26 +55,23 @@ static void _edmonds(const Graph* g, const Graph* contraction, Graph* a)
 
 static void _find_min_parents(const Graph* g, Vertex** parents)
 {
-    size_t min_weights[ARRAY_LEN(parents)];
-    memset(min_weights, 0, sizeof(min_weights));
     for (ListElt* v = list_head(&g->_adjlists); v; v = list_next(v)) {
         const AdjList* adj = (AdjList*)list_data(v);
 
         for (ListElt* w = list_head(&adj->_adj); w; w = list_next(w)) {
             const Vertex* vertex = (Vertex*)list_data(w);
             
-            if (_is_min(min_weights, vertex)) {
-                min_weights[vertex_data(vertex)] = vertex_weight(vertex);
+            if (_is_min(parents, vertex)) {
                 parents[vertex_data(vertex)] = _min_edge(adj, vertex);
             }
         }
     }
 }
 
-static bool _is_min(size_t* weights, const Vertex* v)
+static bool _is_min(Vertex** parents, const Vertex* v)
 {
-    return weights[vertex_data(v)] == 0 ||
-           vertex_weight(v) < weights[vertex_data(v)];
+    return parents[vertex_data(v)] == NULL ||
+           vertex_weight(v) < vertex_weight(parents[vertex_data(v)]);
 }
 
 static Vertex* _min_edge(const AdjList* parent, const Vertex* child)
