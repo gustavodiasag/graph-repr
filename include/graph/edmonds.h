@@ -4,6 +4,6 @@
 #include "graph.h"
 #include "utils/list.h"
 
-void edmonds(const Graph* g);
+void edmonds(const Graph* g, Graph* a);
 
 #endif

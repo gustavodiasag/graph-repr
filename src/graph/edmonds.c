@@ -4,12 +4,11 @@
 #include "utils/stack.h"
 #include "utils/vertex.h"
 
-typedef struct _Replacement {
-    size_t orig_
-} Replacement;
+#define ARRAY_LEN(arr) \
+    ((sizeof(arr))/(sizeof(*arr)))
 
 /** FIXME: Describe function. */
-static Vertex** _edmonds(const Graph* g);
+static void _edmonds(const Graph* g, const Graph* contracted, Graph* a);
 /** FIXME: Describe function. */
 static void _find_min_parents(const Graph* g, Vertex** parents);
 /** FIXME: Describe function. */
@@ -19,34 +18,26 @@ static Vertex* _min_edge(const AdjList* parent, const Vertex* child);
 /** FIXME: Describe function. */
 static bool _find_cycle(Vertex** parents, size_t child, Stack* cycle);
 /** FIXME: Describe function. */
-static Graph* _contract_cycle(const Graph* g,
-                              Vertex** parents,
-                              const Stack* cycle);
+static void _contract_cycle(const Graph*    g,
+                            Graph*          contracted,
+                            Stack*          cycle,
+                            Vertex**        parents);
+/** FIXME: Describe function. */
+static int int_match(const void* i, const void* j);
 
-void edmonds(const Graph* g)
+static void int_print(const void *i);
+
+void edmonds(const Graph* g, Graph* a)
 {
-    _edmonds(g);
+    _edmonds(g, g, a);
 }
 
-static int int_match(const void* i, const void* j)
-{
-    return *(size_t*)i - *(size_t*)j;
-}
-
-static void int_print(const void* data)
-{
-    printf("%d", *(int*)data);
-}
-
-static Vertex** _edmonds(const Graph* g)
-{
-    graph_print(g, vertex_print);
-    printf("\n\n");
-
-    Vertex* parents[graph_v(g) + 1];
+static void _edmonds(const Graph* g, const Graph* contraction, Graph* a)
+{   
+    Vertex* parents[graph_v(contraction) + 1];
     memset(parents, NULL, sizeof(parents));
-
-    _find_min_parents(g, parents);
+    
+    _find_min_parents(contraction, parents);
 
     Stack cycle = stack_new(sizeof(size_t), int_match, NULL);
 
@@ -55,19 +46,20 @@ static Vertex** _edmonds(const Graph* g)
             break;
         }
     }
-    if (stack_is_empty(&cycle)) {
-        return parents;
-    }
-    Graph* contracted = _contract_cycle(g, parents, &cycle);
+    // The given graph contains at least one cycle.
+    if (!stack_is_empty(&cycle)) {
+        Graph contracted = graph_new(graph_vsize(g), g->match, NULL);
 
-    return _edmonds(contracted);
+        _contract_cycle(contraction, &contracted, &cycle, parents);
+        _edmonds(g, &contracted, a);
+    }
+    // expand_cycle(g, a, &cycle, parents);
 }
 
 static void _find_min_parents(const Graph* g, Vertex** parents)
 {
-    size_t min_weights[graph_v(g) + 1];
+    size_t min_weights[ARRAY_LEN(parents)];
     memset(min_weights, 0, sizeof(min_weights));
-
     for (ListElt* v = list_head(&g->_adjlists); v; v = list_next(v)) {
         const AdjList* adj = (AdjList*)list_data(v);
 
@@ -123,41 +115,58 @@ static bool _find_cycle(Vertex** parents, size_t child, Stack* cycle)
             return true;
         }
     }
-    stack_destroy(&aux);
-
     return false;
 }
 
-static Graph* _contract_cycle(const Graph* g,
-                              Vertex** parents,
-                              const Stack* cycle)
+static void _contract_cycle(const Graph*    g,
+                            Graph*          contracted,
+                            Stack*          cycle,
+                            Vertex**        parents)
 {
-    Graph* contracted = (Graph*)malloc(sizeof(Graph));
-    graph_init(contracted, graph_vsize(g), g->match, NULL);
-    
-    Vertex contracted_vertex = {._data = *(size_t*)(stack_peek(cycle)), ._weight = 0};
+    size_t contracted_vertex = *(size_t*)(stack_peek(cycle));
 
     for (ListElt* v = list_head(&g->_adjlists); v; v = list_next(v)) {
-        const AdjList* adj = (AdjList*)list_data(v);
+        const AdjList* src = (AdjList*)list_data(v);
 
-        for (ListElt* w = list_head(&adj->_adj); w; w = list_next(w)) {    
-            const Vertex* vertex = (Vertex*)list_data(w);
+        for (ListElt* w = list_head(&src->_adj); w; w = list_next(w)) {    
+            const Vertex* dest = (Vertex*)list_data(w);
             
-            if (stack_contains(cycle, &vertex_data(adj->_vertex)) && stack_contains(cycle, &vertex_data(vertex))) {
+            if (stack_contains(cycle, &vertex_data(src->_vertex)) &&
+                stack_contains(cycle, &vertex_data(dest)))
+            {
                 continue;
-            } else if (stack_contains(cycle, &vertex_data(adj->_vertex))) {
-                graph_ins_e(contracted, &contracted_vertex, vertex);
-            } else if (stack_contains(cycle, &vertex_data(vertex))) {
-                Vertex new = {._data = vertex_data(&contracted_vertex), ._weight = vertex_weight(vertex) - vertex_weight(parents[vertex_data(vertex)])};
-                graph_ins_e(contracted, adj->_vertex, &new);
             } else {
-                graph_ins_e(contracted, adj->_vertex, vertex);
+                Vertex cont_src = {
+                    ._data      = vertex_data(src->_vertex),
+                    ._weight    = vertex_weight(src->_vertex)
+                };
+                Vertex cont_dest = {
+                    ._data      = vertex_data(dest),
+                    ._weight    = vertex_weight(dest) 
+                };
+
+                if (stack_contains(cycle, &vertex_data(src->_vertex)) &&
+                    !stack_contains(cycle, &vertex_data(dest)))
+                {
+                    cont_src._data = contracted_vertex; 
+                } else if (!stack_contains(cycle, &vertex_data(src->_vertex)) &&
+                           stack_contains(cycle, &vertex_data(dest)))
+                {
+                    cont_dest._data = contracted_vertex;
+                    cont_dest._weight =cont_dest._weight - vertex_weight(parents[vertex_data(dest)]);
+                }
+                graph_ins_e(contracted, &cont_src, &cont_dest);
             }
         }
     }
-    return contracted;
 }
 
-static void _map_replacement()
+static int int_match(const void* i, const void* j)
 {
+    return *(size_t*)i - *(size_t*)j;
+}
+
+static void int_print(const void*i)
+{
+    printf("%zu", *(size_t*)i);
 }

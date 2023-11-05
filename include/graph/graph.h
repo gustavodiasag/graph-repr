@@ -117,7 +117,10 @@ bool graph_adjlist(const Graph* g, const void* data, AdjList** adj);
  */
 bool graph_is_adj(const Graph* g, const void* data1, const void* data2);
 
-// FIXME: Add description
+/**
+ * Prints a graph specified by `g`. Each of its elements is formatted based on
+ * a printing function specified by `f`.  
+ */
 void graph_print(const Graph* g, void (*f)(const void*));
 
 

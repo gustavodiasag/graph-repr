@@ -31,7 +31,9 @@ int main(int argc, char** argv)
     assert(vertices == graph_v(&g));
     assert(edges    == graph_e(&g));
 
-    edmonds(&g);
+    Graph arborescence = graph_new(graph_vsize(&g), g.match, NULL);
+
+    edmonds(&g, &arborescence);
 
     graph_destroy(&g);
 
