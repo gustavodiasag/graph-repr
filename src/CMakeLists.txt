@@ -6,7 +6,7 @@ add_library(source
     cli/cli.c
     error.c
     graph/edmonds.c
-    graph/graph.c
+    utils/graph.c
     utils/list.c
     utils/set.c
     utils/stack.c
