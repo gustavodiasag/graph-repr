@@ -2,7 +2,7 @@
 
 [![CMake on multiple platforms](https://github.com/gustavodiasag/graph-repr/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/gustavodiasag/graph-repr/actions/workflows/cmake-multi-platform.yml)
 
-This initial version of the project is composed of one representation for directed graphs and the chu-liu-edmonds algorithm for finding the minimum spanning tree for a given digraph.
+This initial version of the project is composed of one representation for directed graphs and the chu-liu-edmonds algorithm for finding the minimum spanning tree of a given digraph.
 
 The chosen representation is an adaptation derived from a somewhat generic graph implementation provided by Kyle Loudon on his book [Mastering Algorithms in C](https://everythingcomputerscience.com/books/Mastering-Algorithms-with-C-Loudon.pdf), which defines an adjacency list  where each of its elements is structured as an origin vertex and a set of the vertices that the origin contains an edge to.
 
