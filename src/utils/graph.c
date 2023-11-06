@@ -83,8 +83,6 @@ static bool _graph_ins_v(Graph* g, const void* v)
 #endif
         return false;
     }
-    g->_v++;
-    
     return true;
 }
 
@@ -110,6 +108,7 @@ bool graph_ins_e(Graph* g, const void* v, const void* w)
 #endif
         return false;
     }
+    g->_v += 2;
     g->_e++;
     
     return true;

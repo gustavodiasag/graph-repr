@@ -19,14 +19,11 @@ int main(int argc, char** argv) {
     
     int weight;
 
-    char output_file[255];
-
-    strcat(output_file, file_name);
     FILE *f;
 
     srand(time(NULL));
 
-    f = fopen(output_file, "w");
+    f = fopen(file_name, "w");
     if (!f) {
         printf("Erro ao abrir o arquivo!\n");
         return 1;

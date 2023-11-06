@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 
 #include "common.h"
 #include "graph/edmonds.h"
@@ -16,8 +17,7 @@ int main(int argc, char** argv)
     if (!f) {
         err_abort("Unable to open file.");
     }
-    Graph g = {0};
-    graph_init(&g, sizeof(Vertex), vertex_match, NULL);
+    Graph g = graph_new(sizeof(Vertex), vertex_match, NULL);
 
     size_t vertices, edges;
     fscanf(f, "%zu %zu", &vertices, &edges);
@@ -28,17 +28,17 @@ int main(int argc, char** argv)
     }
     fclose(f);
 
-    assert(vertices == graph_v(&g));
-    assert(edges    == graph_e(&g));
-
     Graph arborescence = graph_new(graph_vsize(&g), g.match, NULL);
+
+    clock_t start, end;
+    start = clock();
 
     edmonds(&g, &arborescence);
 
-    graph_print(&arborescence, vertex_print);
+    end = clock();
+    double cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    graph_destroy(&arborescence);
-    graph_destroy(&g);
+    printf("CPU time used: %f seconds.\n", cpu_time_used);
 
     return 0;
 }
