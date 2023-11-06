@@ -4,38 +4,96 @@
 #include "utils/stack.h"
 #include "utils/vertex.h"
 
+/** 
+ * Evaluates the range of vertices that can be stored in a graph specified by
+ * `g`.
+ */
 #define VERTEX_RANGE(g) ((graph_v(g) + 1))
 
-/** FIXME: Describe function. */
+/**
+ * Recursive version of `edmonds`. The `contracted` parameter is a graph with
+ * a cycle contracted to a unique vertex, so that it can be used in further
+ * contractions and expansions.
+ */
 static void _edmonds(const Graph* g, const Graph* contracted, Graph* a);
-/** FIXME: Describe function. */
+
+/**
+ * For every vertex in a graph specified by `g`, identifies the parent vertex
+ * containing the minimum edge towards it.
+ * 
+ * The `parents` parameter is a list of vertices inside which the minimum
+ * parents are stored. The index of the list corresponds to the head of the
+ * minimum edge and the value at that index, its tail.
+ */
 static void _find_min_parents(const Graph* g, Vertex** parents);
-/** FIXME: Describe function. */
+
+/**
+ * Checks whether a vertex specified by `v` is the head of a minimum edge to
+ * a determined position of minimum parents list specified by `parents`.
+ * 
+ * Returns true if the vertex is the head, or false otherwise.
+ */
 static bool _is_min(Vertex** parents, const Vertex* v);
-/** FIXME: Describe function. */
+
+/**
+ * Generates a representation of a minimum edge that comes from the initial
+ * vertex of an adjacency list specified by `parent` and goes to a vertex
+ * specified by `child`.
+ * 
+ * Returns a pointer to the new representation. 
+ */
 static Vertex* _min_edge(const AdjList* parent, const Vertex* child);
-/** FIXME: Describe function. */
+
+/** 
+ * Searches for a cycle given a list of minimum parents specified by `parents`
+ * starting from a vertex identified by `child`, storing the resulting cycle
+ * in a stack data structure specified by `cycle`.
+ * 
+ * Returns true if a cycle was found, or false otherwise.
+ */
 static bool _find_cycle(Vertex** parents, size_t child, Stack* cycle);
-/** FIXME: Describe function. */
+
+/**
+ * Contracts a cycle from a graph specified by `g`, storing the resulting
+ * contraction in a graph specified by `contracted`.
+ * 
+ * The `cycle` paramenter stores the vertices contained by the cycle.
+ * 
+ * The `parents` parameter stores the minimum incoming edges of each vertex
+ * in the graph `g`.
+ */
 static void _contract_cycle(const Graph*    g,
                             Graph*          contracted,
                             Stack*          cycle,
                             Vertex**        parents);
-/** FIXME: Describe function. */
+
+/**
+ * Expands a cycle from a graph specified by `g`, storing the resulting
+ * expansion directly to a spanning arborescence specified by `a`..
+ * 
+ * The `cycle` paramenter stores the vertices contained by the cycle.
+ * 
+ * The `parents` parameter stores the minimum incoming edges of each vertex
+ * in the graph `g`.
+ */
 static void _expand_cycle(const Graph*  g,
                           Graph*        a,
                           Stack*        cycle,
                           Vertex**      parents);
-/** FIXME: Describe function. */
+
+/** 
+ * Checks if there is an edge going from `v` to `w` in a graph specified by
+ * `g`.
+ */
 static bool search_edge(const Graph* g, const void* v, const void* w);
+
 /** 
  * Helper function to compare two `size_t` integers specified by `i` and `j`.
  * 
- * Returns a negative number 
+ * Returns a negative number if `i` is lower than `j`, 0 if `i` is equal to `j`
+ * or a positive number if `i` is greater than `j`.
  */
 static int int_match(const void* i, const void* j);
-
-static void int_print(const void* i);
 
 void edmonds(const Graph* g, Graph* a)
 {

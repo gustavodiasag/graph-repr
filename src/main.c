@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "graph/edmonds.h"
-#include "graph/graph.h"
+#include "utils/graph.h"
 #include "utils/vertex.h"
 #include "utils/list.h"
 

@@ -5,4 +5,4 @@ cmake ..
 cmake --build .
 
 cd build/
-./graph-repr ../resources/graph.txt
+./graph-repr ../examples/graph.txt
